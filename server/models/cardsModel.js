@@ -14,6 +14,10 @@ const CardSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        lesson: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Lessons",
+        }
     }
 )
 

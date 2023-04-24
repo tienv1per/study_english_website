@@ -10,7 +10,10 @@ const LessonSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        cards: [],
+        numberCards: {
+            type: Number,
+            default: 0,
+        }
     }
 )
 

@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 
 const LearnedSchema = mongoose.Schema(
     {
-        userId,
-        lessonId,
-        learnedCards: []
+        userId: String,
+        lessonId: String,
+        learnedCards: [],
     }
 )
 

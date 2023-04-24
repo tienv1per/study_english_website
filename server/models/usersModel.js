@@ -14,7 +14,12 @@ const UserSchema = mongoose.Schema(
             type: Boolean,
             default: false,
         },
-        learnedCard: [],
+        learnedCard: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Cards",
+            }
+        ],
     }, 
     {timestamp: true}
 )
