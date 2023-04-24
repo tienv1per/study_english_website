@@ -7,7 +7,7 @@ router.get("/", CardsController.getCards);
 
 router.get("/:id", CardsController.getCard);
 
-router.post("/", CardsController.createCard);
+router.post("/:lessonId", CardsController.createCard);
 
 router.put("/:id", CardsController.updateCard);
 
