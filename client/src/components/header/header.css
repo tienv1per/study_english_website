@@ -1,0 +1,17 @@
+.header {
+    background-color: #003580;
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+.headerContainer {
+    width: 100%;
+    max-width: 1024px;
+    margin: 20px 0px;
+}
+
+.headerDesc {
+    font-weight: 500;
+    margin: 20px;
+}
