@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", LessonsController.getLessons);
 
-router.get("/", LessonsController.getLesson);
+router.get("/:id", LessonsController.getLesson);
 
 router.post("/", LessonsController.createLesson);
 
