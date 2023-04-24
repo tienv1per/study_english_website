@@ -1,0 +1,42 @@
+.lessons {
+    width: 100%;
+    max-width: 1024px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.lessonItem {
+    border-radius: 10px;
+    height: 500px;
+}
+
+.lessonImg {
+    height: 300px;
+    width: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.lessonTitle {
+    font-weight: 300;
+    max-height: 120px;
+}
+
+.lessonBtn {
+    color: white;
+    background-color: #003580;
+    height: 40px;
+    width: 90px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+}
+
+.h1div {
+    margin: 10px 0px;
+}
+
+.h2div {
+    margin: 10px 0;
+}
