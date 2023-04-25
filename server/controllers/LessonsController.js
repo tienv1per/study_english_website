@@ -1,8 +1,8 @@
-const Lesson = require("../models/lessonsModel");
+const LessonModel = require("../models/lessonsModel");
 
 module.exports.getLessons = async(req, res, next) =>{
     try {
-        const lessons = await Lesson.find();
+        const lessons = await LessonModel.find();
         return res.status(200).json(lessons);
     } catch (error) {
         return res.status(500).json(error);
@@ -13,7 +13,7 @@ module.exports.getLesson = async(req, res, next) => {
     const id = req.params.id;
 
     try {
-        const lesson = await Lesson.findById(id);
+        const lesson = await LessonModel.findById(id);
         if(lesson) {
             return res.status(200).json(lesson);
         }
@@ -27,7 +27,7 @@ module.exports.getLesson = async(req, res, next) => {
 }
 
 module.exports.createLesson = async(req, res, next) =>{
-    const newLesson = new Lesson(req.body);
+    const newLesson = new LessonModel(req.body);
     try {
         const savedLesson = await newLesson.save();
         return res.status(200).json(savedLesson);
@@ -39,7 +39,7 @@ module.exports.createLesson = async(req, res, next) =>{
 module.exports.updateLesson = async(req, res, next) =>{
     const id = req.params.id;
     try {
-        const lesson = await Lesson.findByIdAndUpdate(id, req.body, {new: true});
+        const lesson = await LessonModel.findByIdAndUpdate(id, req.body, {new: true});
         return res.status(200).json(lesson);
     } catch (error) {
         return res.status(500).json({message: error.message});
@@ -49,7 +49,8 @@ module.exports.updateLesson = async(req, res, next) =>{
 module.exports.deleteLesson = async(req, res, next) =>{
     const id = req.params.id;
     try {
-        const lesson = await Lesson.findByIdAndDelete(id);
+        const lesson = await LessonModel.findByIdAndDelete(id);
+        console.log(1);
         return res.status(200).json({
             message: "Delete lesson successfully",
             lesson: lesson,

@@ -5,7 +5,9 @@ const router = express.Router();
 
 router.get("/", CardsController.getCards);
 
-router.get("/:id", CardsController.getCard);
+router.get("/detail/:id", CardsController.getCard);
+
+router.get("/:lessonId", CardsController.getCardsInLesson);
 
 router.post("/:lessonId", CardsController.createCard);
 

@@ -1,12 +1,13 @@
-const Card = require("../models/cardsModel");
-const Lesson = require("../models/lessonsModel");
+const CardModel = require("../models/cardsModel");
+const LessonModel = require("../models/lessonsModel");
+const mongoose = require("mongoose");
 
 module.exports.createCard = async(req, res, next) => {
     const lessonId = req.params.lessonId;
-    const newCard = new Card(req.body);
+    const newCard = new CardModel(req.body);
 
     try {
-        await Lesson.findByIdAndUpdate(lessonId, {
+        await LessonModel.findByIdAndUpdate(lessonId, {
             $inc: {numberCards: 1}
         })
         newCard.lesson = lessonId;
@@ -21,7 +22,7 @@ module.exports.updateCard = async(req, res, next) => {
     const id = req.params.id;
 
     try {
-        const card = await Card.findByIdAndUpdate(id, req.body, {new: true});
+        const card = await CardModel.findByIdAndUpdate(id, req.body, {new: true});
         return res.status(200).json(card);
     } catch (error) {
         return res.status(500).json(error.message);
@@ -31,9 +32,9 @@ module.exports.updateCard = async(req, res, next) => {
 module.exports.deleteCard = async(req, res, next) => {
     const id = req.params.id;
     try {
-        const card = await Card.findByIdAndDelete(id);
+        const card = await CardModel.findByIdAndDelete(id);
         const lessonId = card.lesson;
-        await Lesson.findByIdAndUpdate(lessonId, {
+        await LessonModel.findByIdAndUpdate(lessonId, {
             $inc: {numberCards: -1}
         })
         return res.status(200).json({
@@ -48,7 +49,7 @@ module.exports.deleteCard = async(req, res, next) => {
 module.exports.getCard = async (req, res, next) => {
     const id = req.params.id;
     try {
-        const card = await Card.findById(id);
+        const card = await CardModel.findById(id);
         return res.status(200).json(card);
     } catch (error) {
         return res.status(500).json(error.message);
@@ -57,9 +58,19 @@ module.exports.getCard = async (req, res, next) => {
 
 module.exports.getCards = async(req, res, next) => {
     try {
-        const cards = await Card.find();
+        const cards = await CardModel.find();
         return res.status(200).json(cards);
     } catch (error) {
         return res.status(500).json(error);
+    }
+}
+
+module.exports.getCardsInLesson = async(req, res, next) => {
+    const lessonId = new mongoose.Types.ObjectId(req.params.lessonId);
+    try {
+        const cards = await CardModel.find({lesson: lessonId});
+        return res.status(200).json(cards);
+    } catch (error) {
+        return res.status(500).json({message: error.message});
     }
 }

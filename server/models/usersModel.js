@@ -14,10 +14,10 @@ const UserSchema = mongoose.Schema(
             type: Boolean,
             default: false,
         },
-        learnedCard: [
+        learnedLesson: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "Cards",
+                ref: "Lessons",
             }
         ],
     }, 
