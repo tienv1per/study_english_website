@@ -2,6 +2,9 @@ const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 const UserModel = require("../models/usersModel");
+const LessonModel = require("../models/lessonsModel");
+const mongoose = require('mongoose');
+const { use } = require('../routes/UserRoute');
 
 dotenv.config();
 
@@ -73,3 +76,58 @@ module.exports.loginUser = async(req, res, next) => {
     }
 }
 
+module.exports.getUser = async(req, res, next) => {
+    const id = req.params.id;
+
+    try {
+        const user = await UserModel.findById(id);
+        return res.status(200).json(user);
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+}
+
+module.exports.getUsers = async(req, res, next) => {
+    try {
+        const users = await UserModel.find();
+        return res.status(200).json(users);
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+    
+
+}
+
+module.exports.finishLesson = async (req, res, next) => {
+    const userId = req.params.id;
+    const lessonId = new mongoose.Types.ObjectId(req.body.lessonId);
+
+    try {
+        const user = await UserModel.findById(userId);
+        const lesson = await LessonModel.findById(lessonId);
+
+        if(user && lesson) {
+            if(!user.learnedLesson.some(obj => obj._id.equals(lessonId))){
+                await user.updateOne({$push: {learnedLesson: {
+                    _id: lessonId,
+                    lessonName: lesson.name
+                }}});
+                return res.status(200).json({
+                    message: "Finish lesson",
+                    user: user,
+                })
+            }
+            else {
+                return res.status(403).json("User is already finished lesson");
+            }
+
+        }
+        else {
+            return res.status(400).json({
+                message: "Invalid user or lesson",
+            })
+        }
+    } catch (error) {
+        return res.status(500).json(error.message);
+    }
+}

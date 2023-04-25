@@ -16,8 +16,9 @@ const UserSchema = mongoose.Schema(
         },
         learnedLesson: [
             {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "Lessons",
+                id: {type: mongoose.Schema.Types.ObjectId,
+                ref: "Lessons"},
+                lessonName: String,
             }
         ],
     }, 
