@@ -1,8 +1,7 @@
 .lessons {
     width: 100%;
-    max-width: 1024px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 15px;
 }
 
