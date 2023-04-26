@@ -1,3 +1,10 @@
+.lesson {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .scene {
     display: inline-block;
     width: 400px;
@@ -51,4 +58,20 @@
     height: 200px;
     object-fit: contain;
     margin: 10px;
+}
+
+.btn {
+    display: flex;
+    gap: 60px;
+}
+
+.lessonBtn {
+    background-color: blueviolet;
+    padding: 10px;
+    height: 60px;
+    width: 120px;
+    cursor: pointer;
+    border: none;
+    font-size: 20px;
+    border-radius: 10px;
 }

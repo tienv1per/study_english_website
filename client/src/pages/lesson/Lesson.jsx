@@ -21,7 +21,6 @@ const Lesson = () => {
 
     return (
         <div className='lesson'>
-            <Navbar/>
             <h1>Lesson Detail</h1>
             <h2>Education</h2>
             <h3>123 flash cards</h3>
@@ -34,6 +33,11 @@ const Lesson = () => {
                     <div class="card__face card__face--back">an undergraduate academic degree awarded by colleges and universities upon completion of a course of study lasting three to six years</div>
                 </div>
             </div>
+            <div className='btn'>
+                <button className='lessonBtn'>Prev Card</button>
+                <button className='lessonBtn'>Next Card</button>
+            </div>
+            
         </div>
     )
 }
