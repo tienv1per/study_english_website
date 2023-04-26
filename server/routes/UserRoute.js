@@ -9,8 +9,10 @@ router.get("/:id", UserController.getUser);
 
 router.put("/:id", UserController.finishLesson);
 
-router.post("/register", (UserController.registerUser));
+router.post("/register", UserController.registerUser);
 
 router.post("/login", UserController.loginUser);
+
+router.post("/logout", UserController.logoutUser);
 
 module.exports = router;

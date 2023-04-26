@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const UserModel = require("../models/usersModel");
 const LessonModel = require("../models/lessonsModel");
 const mongoose = require('mongoose');
-const { use } = require('../routes/UserRoute');
 
 dotenv.config();
 
@@ -23,15 +22,9 @@ module.exports.registerUser = async(req, res, next) => {
         }
         const savedUser = await newUser.save();
 
-        const token = jwt.sign({
-            username: savedUser.username,
-            id: savedUser._id
-        }, JWT_TOKEN);
-
         return res.status(200).json({
             message: "User created successfully",
             user: savedUser,
-            token: token,
         });
 
     } catch (error) {
@@ -54,7 +47,7 @@ module.exports.loginUser = async(req, res, next) => {
                 }, JWT_TOKEN);
                 
                 return res 
-                        .cookie("ditmetoken", token, {
+                        .cookie("authenToken", token, {
                             httpOnly: true,
                         })
                         .status(200)
@@ -130,4 +123,9 @@ module.exports.finishLesson = async (req, res, next) => {
     } catch (error) {
         return res.status(500).json(error.message);
     }
+}
+
+module.exports.logoutUser = (req, res, next) => {
+    res.clearCookie('authenToken');
+    res.redirect("/login");
 }

@@ -11,6 +11,11 @@ const Login = () => {
         navigate("/register");
     }
 
+    const navToHome = (e) => {
+        e.preventDefault();
+        navigate("/");
+    }
+
     return (
         <div className='Auth'>
             <div className='a-left'>
@@ -39,7 +44,7 @@ const Login = () => {
                     </div>
                     <div style={{marginTop: "25px"}}>
                         <span className='spanForm' onClick={handleClick}>Don't have an account? Sign Up</span>
-                        <button className='button infoButton'>Login</button>
+                        <button className='button infoButton' onClick={navToHome}>Login</button>
                     </div>
                 </form>
             </div>

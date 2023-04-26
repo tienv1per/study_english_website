@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const cookieParser = require("cookie-parser");
 const UserRoute = require("./routes/UserRoute");
 const CardsRoute = require("./routes/CardsRoute");
 const LessonsRoute = require("./routes/LessonsRoute");
@@ -25,6 +26,7 @@ const connect = async () => {
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/user", UserRoute);
 app.use("/cards", CardsRoute);
