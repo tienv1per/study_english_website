@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import "./register.css";
-import _ from "lodash";
 import Logo from "../../image/logo.webp";
 import { useNavigate } from 'react-router-dom';
 import { Api } from '../../api';
@@ -15,7 +14,6 @@ const Register = () => {
     }
 
     const [data, setData] = useState(INITIAL_STATE);
-    const [confirmPass, setConfirmPass] = useState(false);
     const [err, setErr] = useState("");
 
     const navigate = useNavigate();
@@ -32,13 +30,15 @@ const Register = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault();
-        if(_.isNil(data.username) || _.isNil(data.password)) {
-            return ;
-        }
         try {
+            if(data.password !== data.confirmPass) {
+                setErr("Password does not match");
+                return ;
+            }
             const res = await Api.authApi.registerApi(data);
             if(!res.data.success) {
                 setErr(res.data.message);
+                return ;
             }
             navigate("/login");
         } catch (error) {
@@ -108,14 +108,6 @@ const Register = () => {
                         }}>
                         {err}
                     </span>}
-                    {/* <span style={{
-                            display: confirmPass ? "none" : "block", 
-                            color: "red", fontSize: "16px", 
-                            alignSelf: "flex-end",
-                            marginRight: "5px",
-                        }}>
-                        * Confirm Password is not same
-                    </span> */}
                     <div>
                         <span className='spanForm' onClick={handleClick}>Already have an account? Login!</span>
                     </div>

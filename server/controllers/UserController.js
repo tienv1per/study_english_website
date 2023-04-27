@@ -10,10 +10,18 @@ dotenv.config();
 const JWT_TOKEN = process.env.JWT_TOKEN;
 
 module.exports.registerUser = async(req, res, next) => {
-    const {username, password} = req.body;
+    const {username, password, firstname, lastname} = req.body;
+    // console.log(username, password, firstname, lastname);
+    if(username === "" || password === "" || firstname === "" || lastname === "") {
+        return res.status(201).json({
+            message: "Please fill all required fields",
+            success: false,
+        })
+    }
+    
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
-    const newUser = new UserModel({username, password: hashed});
+    const newUser = new UserModel({username, password: hashed, firstname, lastname});
 
     try {
         const oldUser = await UserModel.findOne({username: username});
@@ -24,19 +32,30 @@ module.exports.registerUser = async(req, res, next) => {
             });
         }
         const savedUser = await newUser.save();
+        
 
         return res.status(200).json({
             message: "User created successfully",
             user: savedUser,
+            success: true,
         });
 
     } catch (error) {
-        return res.status(500).json({message: error.message});
+        return res.status(500).json({
+            message: error.message,
+            success: false,
+        });
     }
 }
 
 module.exports.loginUser = async(req, res, next) => {
     const {username, password} = req.body;
+    if(username === "" || password === "") {
+        return res.status(201).json({
+            message: "Please fill all required fields",
+            success: false,
+        })
+    }
 
     try {
         const user = await UserModel.findOne({username: username});
@@ -131,6 +150,7 @@ module.exports.finishLesson = async (req, res, next) => {
         else {
             return res.status(400).json({
                 message: "Invalid user or lesson",
+                success: false,
             })
         }
     } catch (error) {
@@ -140,5 +160,5 @@ module.exports.finishLesson = async (req, res, next) => {
 
 module.exports.logoutUser = (req, res, next) => {
     res.clearCookie('authenToken');
-    res.redirect("/login");
+    return res.status(200).json({ message: 'Logged out successfully' });
 }

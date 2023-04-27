@@ -10,7 +10,13 @@ const loginApi = async(data) => {
     return result;
 }
 
+const logoutApi = async() => {
+    console.log(123);
+    return await axios.post("http://localhost:8000/user/logout");
+}
+
 export const authApi = {
     registerApi,
     loginApi,
+    logoutApi
 };
