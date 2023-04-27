@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./lesson.css";
-import Bachelor from "../../image/bachelor.webp";
+import { Api } from '../../api';
 
 const Lesson = () => {
     const cardsRef = useRef();
+    const [cards, setCards] = useState([]);
+    const [lesson, setLesson] = useState("");
+    const [curIndex, setCurIndex] = useState(0);
+    const [numCards, setNumCards] = useState(0);
 
     useEffect(() => {
         const cards = cardsRef.current.querySelectorAll('.card');
@@ -20,27 +24,53 @@ const Lesson = () => {
 
     useEffect(() => {
         // cal api
-        // set card state
-        // 
+        const callApi = async() => {
+            const result = await Api.lessonApi.getLesson("6446a9974b0829691e00c390");
+            const cardsRes = await Api.lessonApi.getCardsInLesson("6446a9974b0829691e00c390");
+            setCards(cardsRes.data);
+            setNumCards(cardsRes.data.length);
+            setLesson(result.data.name);
+        }
+
+        callApi();
     }, []);
+
+    const nextCard = (e) => {
+        e.preventDefault();
+        if(curIndex + 1 < numCards) {
+            return setCurIndex((prev) => prev + 1);
+        }
+        return setCurIndex(curIndex);
+    }
+
+    const prevCard = (e) => {
+        e.preventDefault();
+        if(curIndex > 0) {
+            return setCurIndex((prev) => prev - 1);
+        }
+        return setCurIndex(curIndex);
+    }
 
     return (
         <div className='lesson'>
             <h1>Lesson Detail</h1>
-            <h2>Education</h2>
-            <h3>123 flash cards</h3>
-            <div class="scene scene--card" onClick={handleClick} ref={cardsRef}>
-                <div class="card">
-                    <div class="card__face card__face--front">
-                        <div>Bachelor of Science</div>
-                        <img className='imageInfo' style={{width: "200px"}} src={Bachelor} alt=''/>
-                    </div>
-                    <div class="card__face card__face--back">an undergraduate academic degree awarded by colleges and universities upon completion of a course of study lasting three to six years</div>
-                </div>
+            <h2>{lesson}</h2>
+            <h3>{numCards} flash cards</h3>
+            <div className="scene scene--card" onClick={handleClick} ref={cardsRef}>
+                {cards.map((card, index) => {
+                    return (
+                        <div className="card" style={{display: index === curIndex ? "block" : "none"}} key={index}>
+                            <div className="card__face card__face--front">
+                                <div>{card.name}</div>
+                                <img className='imageInfo' style={{width: "200px"}} src={card.imageURL} alt=''/>
+                            </div>
+                            <div className="card__face card__face--back">{card.desc}</div>
+                        </div>)
+                })}
             </div>
             <div className='btn'>
-                <button className='lessonBtn'>Prev Card</button>
-                <button className='lessonBtn'>Next Card</button>
+                <button className='lessonBtn' onClick={prevCard}>Prev Card</button>
+                <button className='lessonBtn' onClick={nextCard}>Next Card</button>
             </div>
             
         </div>

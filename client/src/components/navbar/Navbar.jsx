@@ -5,7 +5,7 @@ import { Api } from '../../api';
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const navToLogin = async(e) => {
+    const navToLogout = async(e) => {
         e.preventDefault();
         await Api.authApi.logoutApi;
         navigate("/login");
@@ -21,8 +21,8 @@ const Navbar = () => {
             <div className='navbarContainer'>
                 <span className='logo'>theshylearning</span>
                 <div className='navItems'>
-                    <button className='navButton' onClick={navToRegister}>Register</button>
-                    <button className='navButton' onClick={navToLogin}>Logout</button>
+                    <span>Hello Tien</span>
+                    <button className='navButton' onClick={navToLogout}>Logout</button>
                 </div>
             </div>
         </div>

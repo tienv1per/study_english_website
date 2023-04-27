@@ -11,7 +11,6 @@ const JWT_TOKEN = process.env.JWT_TOKEN;
 
 module.exports.registerUser = async(req, res, next) => {
     const {username, password, firstname, lastname} = req.body;
-    // console.log(username, password, firstname, lastname);
     if(username === "" || password === "" || firstname === "" || lastname === "") {
         return res.status(201).json({
             message: "Please fill all required fields",
