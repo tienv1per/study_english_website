@@ -21,6 +21,7 @@
 .lessonTitle {
     font-weight: 300;
     max-height: 120px;
+    text-align: center;
 }
 
 .lessonBtn {
@@ -31,6 +32,7 @@
     cursor: pointer;
     border: none;
     border-radius: 10px;
+    margin-left: 90px;
 }
 
 .h1div {

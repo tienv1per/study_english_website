@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./lesson.css";
 import { Api } from '../../api';
+import { useParams } from 'react-router-dom';
 
 const Lesson = () => {
     const cardsRef = useRef();
@@ -8,6 +9,9 @@ const Lesson = () => {
     const [lesson, setLesson] = useState("");
     const [curIndex, setCurIndex] = useState(0);
     const [numCards, setNumCards] = useState(0);
+
+    const id = useParams();
+    console.log(typeof id.id);
 
     useEffect(() => {
         const cards = cardsRef.current.querySelectorAll('.card');
@@ -25,8 +29,8 @@ const Lesson = () => {
     useEffect(() => {
         // cal api
         const callApi = async() => {
-            const result = await Api.lessonApi.getLesson("6446a9974b0829691e00c390");
-            const cardsRes = await Api.lessonApi.getCardsInLesson("6446a9974b0829691e00c390");
+            const result = await Api.lessonApi.getLesson(id.id);
+            const cardsRes = await Api.lessonApi.getCardsInLesson(id.id);
             setCards(cardsRes.data);
             setNumCards(cardsRes.data.length);
             setLesson(result.data.name);
