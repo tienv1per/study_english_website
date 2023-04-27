@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./lesson.css";
-import Navbar from "../../components/navbar/Navbar";
 import Bachelor from "../../image/bachelor.webp";
 
 const Lesson = () => {
@@ -18,6 +17,12 @@ const Lesson = () => {
     const handleClick = (e) => {
         e.preventDefault();
     }
+
+    useEffect(() => {
+        // cal api
+        // set card state
+        // 
+    }, []);
 
     return (
         <div className='lesson'>

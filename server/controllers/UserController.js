@@ -18,7 +18,10 @@ module.exports.registerUser = async(req, res, next) => {
     try {
         const oldUser = await UserModel.findOne({username: username});
         if(oldUser) {
-            return res.status(400).json("Username already in use");
+            return res.status(200).json({
+                message: "User already exists",
+                success: false,
+            });
         }
         const savedUser = await newUser.save();
 
@@ -55,17 +58,27 @@ module.exports.loginUser = async(req, res, next) => {
                             message: "Lgin successfully",
                             user: user,
                             token: token,
+                            success: true,
                         });
             }
             else {
-                return res.status(400).json({message: "Wrong password"});
+                return res.status(200).json({
+                    message: "Wrong password",
+                    success: false,
+                });
             }
         }
         else {
-            return res.status(400).json({message: "User not found"});
+            return res.status(200).json({
+                message: "User not found",
+                success: false,
+            });
         }
     } catch (error) {
-        return res.status(500).json({message: error.message});
+        return res.status(200).json({
+            message: error.message,
+            success: false
+        });
     }
 }
 

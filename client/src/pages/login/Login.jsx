@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "../register/register.css";
+import _ from "lodash";
 import Logo from "../../image/logo.webp";
 import { useNavigate } from 'react-router-dom';
+import { Api } from '../../api';
 
 const Login = () => {
+    const INITIAL_STATE = {
+        username: "",
+        password: "",
+    }
+
+    const [data, setData] = useState(INITIAL_STATE);
+    const [err, setErr] = useState("");
+
     const navigate = useNavigate();
 
     const handleClick = (e) => {
@@ -11,9 +21,27 @@ const Login = () => {
         navigate("/register");
     }
 
-    const navToHome = (e) => {
+    const handleChange = (e) => {
         e.preventDefault();
-        navigate("/");
+        setData({...data, [e.target.name]: e.target.value});
+    }
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        if(_.isNil(data.username) || _.isNil(data.password)) {
+            return ;
+        }
+        try {
+            const res = await Api.authApi.loginApi(data);
+            console.log(res.data.success);
+            if(!res.data.success) {
+                setErr(res.data.message);
+                return ;
+            }
+            navigate("/");
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
@@ -26,25 +54,37 @@ const Login = () => {
                 </div>
             </div>
             <div className='a-right'>
-                <form className='infoForm authForm'>
+                <form className='infoForm authForm' onSubmit={handleSubmit}>
                     <h2>Log In</h2>
                     <div>
                         <input
                             placeholder='username'
                             className='infoInput'
                             name='username'
+                            value={data.username}
+                            onChange={handleChange}
                         />
                     </div>
                     <div>
                         <input
                             placeholder='password'
                             className='infoInput'
+                            type='password'
                             name='password'
+                            value={data.password}
+                            onChange={handleChange}
                         />
                     </div>
+                    {err && <span style={{
+                            color: "red", fontSize: "16px", 
+                            alignSelf: "flex-end",
+                            marginRight: "5px",
+                        }}>
+                        {err}
+                    </span>}
                     <div style={{marginTop: "25px"}}>
                         <span className='spanForm' onClick={handleClick}>Don't have an account? Sign Up</span>
-                        <button className='button infoButton' onClick={navToHome}>Login</button>
+                        <button className='button infoButton' type='submit'>Login</button>
                     </div>
                 </form>
             </div>
