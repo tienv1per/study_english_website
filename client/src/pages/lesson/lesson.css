@@ -54,8 +54,8 @@
   }
 
 .imageInfo {
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
     object-fit: contain;
     margin: 10px;
 }
@@ -63,6 +63,7 @@
 .btn {
     display: flex;
     gap: 60px;
+    margin-right: 66px;
 }
 
 .lessonBtn {

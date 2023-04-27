@@ -1,17 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./lesson.css";
 import { Api } from '../../api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Lesson = () => {
+    const navigate = useNavigate();
+
     const cardsRef = useRef();
-    const [cards, setCards] = useState([]);
+    const [Cards, setCards] = useState([]); 
     const [lesson, setLesson] = useState("");
     const [curIndex, setCurIndex] = useState(0);
     const [numCards, setNumCards] = useState(0);
 
     const id = useParams();
-    console.log(typeof id.id);
 
     useEffect(() => {
         const cards = cardsRef.current.querySelectorAll('.card');
@@ -55,18 +56,31 @@ const Lesson = () => {
         return setCurIndex(curIndex);
     }
 
+    const handleBack = (e) => {
+        e.preventDefault();
+        navigate("/");
+    }
+
+    const finishCard = (e) => {
+        e.preventDefault();
+    }
+
     return (
         <div className='lesson'>
             <h1>Lesson Detail</h1>
             <h2>{lesson}</h2>
             <h3>{numCards} flash cards</h3>
+            <div className='btn'>
+                <button className='lessonBtn' onClick={handleBack}>Back</button>
+                <button className='lessonBtn' onClick={finishCard}>Finish</button>
+            </div>
             <div className="scene scene--card" onClick={handleClick} ref={cardsRef}>
-                {cards.map((card, index) => {
+                {Cards.map((card, index) => {
                     return (
                         <div className="card" style={{display: index === curIndex ? "block" : "none"}} key={index}>
                             <div className="card__face card__face--front">
                                 <div>{card.name}</div>
-                                <img className='imageInfo' style={{width: "200px"}} src={card.imageURL} alt=''/>
+                                <img className='imageInfo' src={card.imageURL} alt=''/>
                             </div>
                             <div className="card__face card__face--back">{card.desc}</div>
                         </div>)
@@ -76,7 +90,6 @@ const Lesson = () => {
                 <button className='lessonBtn' onClick={prevCard}>Prev Card</button>
                 <button className='lessonBtn' onClick={nextCard}>Next Card</button>
             </div>
-            
         </div>
     )
 }
