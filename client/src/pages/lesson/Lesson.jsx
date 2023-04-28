@@ -42,6 +42,7 @@ const Lesson = () => {
         if(curIndex + 1 < numCards) {
             return setCurIndex((prev) => prev + 1);
         }
+        alert("Finished!");
         return setCurIndex(curIndex);
     }
 
@@ -66,7 +67,7 @@ const Lesson = () => {
         <div className='lesson'>
             <h1>Lesson Detail</h1>
             <h2>{lesson}</h2>
-            <h3>{numCards} flash cards</h3>
+            <h3>{curIndex + 1} / {numCards} flash cards</h3>
             <div className='btn'>
                 <button className='lessonBtn' onClick={handleBack}>Back</button>
                 <button className='lessonBtn' onClick={finishCard}>Finish</button>
@@ -86,6 +87,26 @@ const Lesson = () => {
             <div className='btn'>
                 <button className='lessonBtn' onClick={prevCard}>Prev Card</button>
                 <button className='lessonBtn' onClick={nextCard}>Next Card</button>
+            </div>
+            <div class="container">
+                <button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Finish Lesson</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>You have finish this lesson. Congratulations!!!</p>
+                            </div>
+                            <div class="modal-footer click-btn">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" className='home-btn' data-dismiss="modal" onClick={handleBack}>Back To Home Page</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

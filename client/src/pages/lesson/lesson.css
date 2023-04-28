@@ -76,3 +76,20 @@
     font-size: 20px;
     border-radius: 10px;
 }
+
+.click-btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.home-btn {
+  color: #333;
+  background-color: #fff;
+  
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid  transparent;
+  border-color: #ccc;
+}
