@@ -16,7 +16,6 @@ const Lesson = () => {
 
     useEffect(() => {
         const cards = cardsRef.current.querySelectorAll('.card');
-        console.log({cards})
         cards.forEach((card) => {
             card.addEventListener('click', () => {
                 card.classList.toggle("is-flipped");
@@ -42,7 +41,7 @@ const Lesson = () => {
         if(curIndex + 1 < numCards) {
             return setCurIndex((prev) => prev + 1);
         }
-        alert("Finished!");
+        setButtonToggleAttribute("modal", "#myModal");
         return setCurIndex(curIndex);
     }
 
@@ -61,6 +60,13 @@ const Lesson = () => {
 
     const finishCard = (e) => {
         e.preventDefault();
+    }
+
+    function setButtonToggleAttribute(toggle, target) {
+        const button = document.querySelector("#buttonModal");
+        button.dataset.toggle = toggle;
+        button.dataset.target = target;
+        button.click();
     }
 
     return (
@@ -88,20 +94,20 @@ const Lesson = () => {
                 <button className='lessonBtn' onClick={prevCard}>Prev Card</button>
                 <button className='lessonBtn' onClick={nextCard}>Next Card</button>
             </div>
-            <div class="container">
-                <button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
-                <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Finish Lesson</h4>
+            <div className="container">
+                <button className="btn btn-info btn-lg" id="buttonModal" style={{display: "none"}}>Open Modal</button>
+                <div className="modal fade" id="myModal" role="dialog">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal">&times;</button>
+                                <h2 className="modal-title">Finish Lesson</h2>
                             </div>
-                            <div class="modal-body">
-                                <p>You have finish this lesson. Congratulations!!!</p>
+                            <div className="modal-body">
+                                <p style={{fontSize: "20px"}}>You have finish this lesson. Congratulations!!!</p>
                             </div>
-                            <div class="modal-footer click-btn">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <div className="modal-footer click-btn">
+                                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="button" className='home-btn' data-dismiss="modal" onClick={handleBack}>Back To Home Page</button>
                             </div>
                         </div>
