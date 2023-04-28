@@ -142,12 +142,15 @@ module.exports.finishLesson = async (req, res, next) => {
                 })
             }
             else {
-                return res.status(403).json("User is already finished lesson");
+                return res.status(201).json({
+                    message: "User is already finished lesson",
+                    success: false,
+                });
             }
 
         }
         else {
-            return res.status(400).json({
+            return res.status(202).json({
                 message: "Invalid user or lesson",
                 success: false,
             })

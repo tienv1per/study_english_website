@@ -2,9 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import "./lesson.css";
 import { Api } from '../../api';
 import { useNavigate, useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import jwt_decode from "jwt-decode";
 
 const Lesson = () => {
     const navigate = useNavigate();
+
+    const cookie = Cookies.get("authen");
+    const decoded = jwt_decode(cookie);
 
     const cardsRef = useRef();
     const [Cards, setCards] = useState([]); 
@@ -41,7 +46,7 @@ const Lesson = () => {
         if(curIndex + 1 < numCards) {
             return setCurIndex((prev) => prev + 1);
         }
-        setButtonToggleAttribute("modal", "#myModal");
+        finishAll();
         return setCurIndex(curIndex);
     }
 
@@ -58,15 +63,18 @@ const Lesson = () => {
         navigate("/");
     }
 
-    const finishCard = (e) => {
-        e.preventDefault();
-    }
-
     function setButtonToggleAttribute(toggle, target) {
         const button = document.querySelector("#buttonModal");
         button.dataset.toggle = toggle;
         button.dataset.target = target;
         button.click();
+    }
+
+    const finishAll = async() => {
+        await Api.lessonApi.finishLesson(decoded.id, {
+            "lessonId": id.id,
+        });
+        setButtonToggleAttribute("modal", "#myModal");
     }
 
     return (
@@ -76,7 +84,7 @@ const Lesson = () => {
             <h3>{curIndex + 1} / {numCards} flash cards</h3>
             <div className='btn'>
                 <button className='lessonBtn' onClick={handleBack}>Back</button>
-                <button className='lessonBtn' onClick={finishCard}>Finish</button>
+                <button className='lessonBtn' onClick={finishAll}>Finish</button>
             </div>
             <div className="scene scene--card" ref={cardsRef}>
                 {Cards.map((card, index) => {

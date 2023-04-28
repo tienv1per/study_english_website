@@ -4,6 +4,7 @@ import _ from "lodash";
 import Logo from "../../image/logo.webp";
 import { useNavigate } from 'react-router-dom';
 import { Api } from '../../api';
+import Cookies from 'js-cookie';
 
 const Login = () => {
     const INITIAL_STATE = {
@@ -33,11 +34,11 @@ const Login = () => {
         }
         try {
             const res = await Api.authApi.loginApi(data);
-            console.log(res.data.success);
             if(!res.data.success) {
                 setErr(res.data.message);
                 return ;
             }
+            Cookies.set("authen", res.data.token);
             navigate("/");
         } catch (error) {
             console.log(error);

@@ -15,8 +15,20 @@ const getAllLessons = async() => {
     return result;
 }
 
+const finishLesson = async (userId, lessonId) => {
+    const result = await axios.put(`http://localhost:8000/user/${userId}`, lessonId);
+    return result;
+}
+
+const createLesson = async(data) => {
+    const result = await axios.post("http://localhost:8000/lessons", data);
+    return result;
+}
+
 export const lessonApi = {
     getLesson,
     getCardsInLesson,
-    getAllLessons
+    getAllLessons,
+    finishLesson,
+    createLesson,
 };

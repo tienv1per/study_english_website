@@ -33,6 +33,8 @@
     border: none;
     border-radius: 10px;
     margin-left: 90px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .h1div {
@@ -41,4 +43,14 @@
 
 .h2div {
     margin: 10px 0;
+}
+
+.modelButton {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-control {
+    height: 40px;
+    font-size: 20px;
 }
