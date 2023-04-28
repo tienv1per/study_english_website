@@ -16,16 +16,13 @@ const Lesson = () => {
 
     useEffect(() => {
         const cards = cardsRef.current.querySelectorAll('.card');
-        [...cards].forEach((card) => {
+        console.log({cards})
+        cards.forEach((card) => {
             card.addEventListener('click', () => {
                 card.classList.toggle("is-flipped");
             })
         })
-    }, []);
-
-    const handleClick = (e) => {
-        e.preventDefault();
-    }
+    }, [Cards]);
 
     useEffect(() => {
         // cal api
@@ -74,7 +71,7 @@ const Lesson = () => {
                 <button className='lessonBtn' onClick={handleBack}>Back</button>
                 <button className='lessonBtn' onClick={finishCard}>Finish</button>
             </div>
-            <div className="scene scene--card" onClick={handleClick} ref={cardsRef}>
+            <div className="scene scene--card" ref={cardsRef}>
                 {Cards.map((card, index) => {
                     return (
                         <div className="card" style={{display: index === curIndex ? "block" : "none"}} key={index}>
