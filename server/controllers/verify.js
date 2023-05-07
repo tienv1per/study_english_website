@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports.verifyToken = async(req, res, next) => {
     const token = req.cookies.authenToken;
+    console.log(token);
     if(!token) {
         return res.status(401).json({message:"You are not authenticated"});
     }

@@ -2,23 +2,32 @@ import React, { useEffect, useState } from 'react';
 import "./lessons.css";
 import { useNavigate } from 'react-router-dom';
 import { Api } from '../../api';
+import _ from "lodash";
 import Cookies from 'js-cookie';
 import jwt_decode from "jwt-decode";
 
 const Lessons = () => {
     const [lessons, setLessons] = useState([]);
+    const [err, setErr] = useState("");
     const cookie = Cookies.get("authen");
     const decoded = jwt_decode(cookie);
 
+    const [data, setData] = useState({
+        name: "",
+        imageURL: "",
+    });
+
     const {isAdmin} = decoded;
+    console.log(isAdmin);
 
     const navigate = useNavigate();
 
+    const callApi = async() => {
+        const res = await Api.lessonApi.getAllLessons();
+        setLessons(res.data);
+    }
+
     useEffect(() => {
-        const callApi = async() => {
-            const res = await Api.lessonApi.getAllLessons();
-            setLessons(res.data);
-        }
         callApi();
     }, []);
 
@@ -29,9 +38,39 @@ const Lessons = () => {
         button.click();
     }
 
+    const closeModal = () => {
+        const button = document.querySelector("#close");
+        button.click();
+    }
+
     const handleAddLesson = (e) => {
         e.preventDefault();
         setButtonToggleAttribute("modal", "#myModal");
+    }
+
+    const handleChange = (e) => {
+        e.preventDefault();
+        setData({...data, [e.target.name]: e.target.value});
+    }
+
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        if(_.isNil(data.name) || _.isNil(data.imageURL)) {
+            return ;
+        }
+        try {
+            const res = await Api.lessonApi.createLesson(data);
+            console.log(456);
+            if(!res.data.success) {
+                setErr(res.data.message);
+                return ;
+            }
+            console.log(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+        closeModal();
+        callApi();
     }
 
     return (
@@ -51,32 +90,44 @@ const Lessons = () => {
                     )
                 })}      
             </div>
-            <button type="button" class="btn btn-primary" id="buttonAdd" style={{display: "none"}}>Launch modal</button>
+            <button type="button" className="btn btn-primary" id="buttonAdd" style={{display: "none"}}>Launch modal</button>
 
             <div className="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
                             <h3>Add New Lesson</h3>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div className="modal-body">
                             <form>
-                                <div class="form-group">
-                                    <label for="input1">Lesson Name</label>
-                                    <input class="form-control" id="input1" placeholder="Enter lesson name"/>
+                                <div className="form-group">
+                                    <label htmlFor="input1">Lesson Name</label>
+                                    <input 
+                                        className="form-control" 
+                                        name='name'
+                                        value={data.name}
+                                        onChange={handleChange}
+                                        placeholder="Enter lesson name"
+                                    />
                                 </div>
-                                <div class="form-group">
-                                    <label for="input2">Lesson Image Link</label>
-                                    <input class="form-control" id="input2" placeholder="Enter lesson image link"/>
+                                <div className="form-group">
+                                    <label htmlFor="input2">Lesson Image Link</label>
+                                    <input 
+                                        className="form-control"  
+                                        name='imageURL'
+                                        value={data.imageURL}
+                                        onChange={handleChange}
+                                        placeholder="Enter lesson image link"
+                                    />
                                 </div>
                             </form>
                         </div>
-                        <div class="modal-footer modelButton">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                        <div className="modal-footer modelButton">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+                            <button type="button" className="btn btn-primary" onClick={handleSubmit}>Save changes</button>
                         </div>
                     </div>
                 </div>

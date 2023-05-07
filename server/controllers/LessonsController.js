@@ -27,10 +27,20 @@ module.exports.getLesson = async(req, res, next) => {
 }
 
 module.exports.createLesson = async(req, res, next) =>{
-    const newLesson = new LessonModel(req.body);
+    const {name, imageURL} = req.body;
+    if(name === "" || imageURL === "") {
+        return res.status(201).json({
+            message: "Please fill all required fields",
+            success: false,
+        })
+    }
+    const newLesson = new LessonModel({name, imageURL});
     try {
         const savedLesson = await newLesson.save();
-        return res.status(200).json(savedLesson);
+        return res.status(200).json({
+            success: true,
+            lesson: savedLesson,
+        });
     } catch (error) {
         return res.status(500).json(error);
     }

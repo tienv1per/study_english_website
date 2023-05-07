@@ -8,7 +8,7 @@ router.get("/", LessonsController.getLessons);
 
 router.get("/:id", LessonsController.getLesson);
 
-router.post("/", verify.verifyToken, LessonsController.createLesson);
+router.post("/", LessonsController.createLesson);
 
 router.put("/:id", verify.verifyToken, LessonsController.updateLesson);
 

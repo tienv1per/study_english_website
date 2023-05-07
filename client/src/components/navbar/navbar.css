@@ -1,5 +1,5 @@
 .navbar {
-    height: 50px;
+    height: 80px;
     background-color: #003580;
     display: flex;
     justify-content: center;
@@ -15,6 +15,7 @@
 }
 
 .logo {
+    font-size: 25px;
     margin: 10px;
     font-weight: 700;
     cursor: pointer;
