@@ -65,9 +65,15 @@ module.exports.updateLesson = async(req, res, next) =>{
 
     try {
         const lesson = await LessonModel.findByIdAndUpdate(id, {name, imageURL}, {new: true});
-        return res.status(200).json(lesson);
+        return res.status(200).json({
+            success: true,
+            lesson: lesson,
+        });
     } catch (error) {
-        return res.status(500).json({message: error.message});
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
 }
 

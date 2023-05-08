@@ -1,5 +1,7 @@
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 const createCard = async(id, data) => {
     const result = await axios.post(`http://localhost:8000/cards/${id}`, data);
     return result;

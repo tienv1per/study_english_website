@@ -49,10 +49,12 @@ const Lessons = () => {
     const handleAddLesson = (e) => {
         e.preventDefault();
         setButtonToggleAttribute("#buttonAdd", "modal", "#myModalAdd");
+        setErr("");
     }
 
     const handleEditLesson = (id) => {
         setButtonToggleAttribute("#buttonEdit", "modal", `#myModalEdit${id}`);
+        setErr("");
     }
 
     const handleDeleteLesson = (id) => {
@@ -65,9 +67,10 @@ const Lessons = () => {
             const res = await Api.lessonApi.createLesson(data);
             if(!res.data.success) {
                 setErr(res.data.message);
+                return;
             }
-            console.log(res.data);
         } catch (error) {
+            alert(error.response.data.message);
             console.log(error);
         }
         setData({
@@ -85,8 +88,8 @@ const Lessons = () => {
                 setErr(res.data.message);
                 return;
             }
-            console.log(res.data);
         } catch (error) {
+            alert(error.response.data.message);
             console.log(error);
         }
         const button = document.querySelector(`#close${id}`);
@@ -105,8 +108,8 @@ const Lessons = () => {
                 setErr(res.data.message);
                 return;
             }
-            console.log(res);
         } catch (error) {
+            alert(error.response.data.message);
             console.log(error);
         }
         const button = document.querySelector(`#delete${id}`);

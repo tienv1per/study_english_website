@@ -39,7 +39,6 @@ const Lesson = () => {
     }
 
     const id = useParams();
-    console.log(id);
 
     useEffect(() => {
         const cards = cardsRef.current.querySelectorAll('.card');
@@ -90,14 +89,15 @@ const Lesson = () => {
         setButtonToggleAttribute("#buttonModal", "modal", "#myModal");
     }
 
-    const closeModal = () => {
-        const button = document.querySelector("#close");
+    const closeModal = (id) => {
+        const button = document.querySelector(id);
         button.click();
     }
 
     const addCardModal = (e) => {
         e.preventDefault();
         setButtonToggleAttribute("#buttonAdd", "modal", "#myModalAdd");
+        setErr("");
     }
 
     const handleAddCard = async(e) => {
@@ -108,8 +108,8 @@ const Lesson = () => {
                 setErr(res.data.message);
                 return;
             }
-            console.log(res.data);
         } catch (error) {
+            alert(error.response.data.message);
             console.log(error);
         }
         setData({
@@ -117,13 +117,13 @@ const Lesson = () => {
             imageURL: "",
             desc: "",
         })
-        closeModal();
-        // callApi();
+        closeModal("#close");   
     }
 
     const editCardModal = (e) => {
         e.preventDefault();
         setButtonToggleAttribute("#buttonEdit", "modal", "#myModalEdit");
+        setErr("");
     }
 
     const handleEdit = async(id) => {
@@ -133,8 +133,8 @@ const Lesson = () => {
                 setErr(res.data.message);
                 return;
             }
-            console.log(res.data);
         } catch (error) {
+            alert(error.response.data.message);
             console.log(error);
         }
         setData({
@@ -142,8 +142,7 @@ const Lesson = () => {
             imageURL: "",
             desc: "",
         })
-        const button = document.querySelector(`#closeEdit`);
-        button.click();
+        closeModal("#closeEdit");
         callApi();
     }
 
@@ -159,13 +158,11 @@ const Lesson = () => {
                 setErr(res.data.message);
                 return;
             }
-            console.log(res);
         } catch (error) {
+            alert(error.response.data.message);
             console.log(error);
         }
-        const button = document.querySelector(`#deleteModal`);
-        button.click();
-        // callApi();
+        closeModal("#deleteModal");
     }
 
     return (

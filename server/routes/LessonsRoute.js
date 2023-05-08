@@ -8,10 +8,10 @@ router.get("/", LessonsController.getLessons);
 
 router.get("/:id", LessonsController.getLesson);
 
-router.post("/", LessonsController.createLesson);
+router.post("/", verify.verifyToken, LessonsController.createLesson);
 
-router.put("/:id", LessonsController.updateLesson);
+router.put("/:id", verify.verifyToken, LessonsController.updateLesson);
 
-router.delete("/:id", LessonsController.deleteLesson);
+router.delete("/:id", verify.verifyToken, LessonsController.deleteLesson);
 
 module.exports = router;
