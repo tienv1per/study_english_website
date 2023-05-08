@@ -16,8 +16,30 @@ const Lesson = () => {
     const [lesson, setLesson] = useState("");
     const [curIndex, setCurIndex] = useState(0);
     const [numCards, setNumCards] = useState(0);
+    const [err, setErr] = useState("");
+
+    const [data, setData] = useState({
+        name: "",
+        imageURL: "",
+        desc: "",
+    });
+
+    // cal api
+    const callApi = async() => {
+        const result = await Api.lessonApi.getLesson(id.id);
+        const cardsRes = await Api.lessonApi.getCardsInLesson(id.id);
+        setCards(cardsRes.data);
+        setNumCards(cardsRes.data.length);
+        setLesson(result.data.name);
+    }
+
+    const handleChange = (e) => {
+        e.preventDefault();
+        setData({...data, [e.target.name]: e.target.value});
+    }
 
     const id = useParams();
+    console.log(id);
 
     useEffect(() => {
         const cards = cardsRef.current.querySelectorAll('.card');
@@ -29,15 +51,6 @@ const Lesson = () => {
     }, [Cards]);
 
     useEffect(() => {
-        // cal api
-        const callApi = async() => {
-            const result = await Api.lessonApi.getLesson(id.id);
-            const cardsRes = await Api.lessonApi.getCardsInLesson(id.id);
-            setCards(cardsRes.data);
-            setNumCards(cardsRes.data.length);
-            setLesson(result.data.name);
-        }
-
         callApi();
     }, []);
 
@@ -77,16 +90,51 @@ const Lesson = () => {
         setButtonToggleAttribute("#buttonModal", "modal", "#myModal");
     }
 
+    const closeModal = () => {
+        const button = document.querySelector("#close");
+        button.click();
+    }
+
+    const addCardModal = (e) => {
+        e.preventDefault();
+        setButtonToggleAttribute("#buttonAdd", "modal", "#myModalAdd");
+    }
+
+    const handleAddCard = async(e) => {
+        e.preventDefault();
+        try {
+            const res = await Api.cardApi.createCard(id.id, data);
+            if(!res.data.success) {
+                setErr(res.data.message);
+                return;
+            }
+            console.log(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+        setData({
+            name: "",
+            imageURL: "",
+            desc: "",
+        })
+        closeModal();
+        callApi();
+    }
+
     return (
         <div className='lesson'>
             <h1>Lesson Detail</h1>
             <h2>{lesson}</h2>
             <h3>{numCards !== 0 ? (curIndex + 1) : 0} / {numCards} flash cards</h3>
             <div className='btn'>
+                <button className='lessonBtn' onClick={addCardModal}>Add New Card</button>
+                <button className='lessonBtn'>Edit Card</button>
+            </div>
+            <div className='btn'>
                 <button className='lessonBtn' onClick={handleBack}>Back</button>
                 <button className='lessonBtn' onClick={finishAll}>Finish</button>
             </div>
-            <div className="scene scene--card" ref={cardsRef}>
+            <div className="scene scene--card sceneTag" ref={cardsRef}>
                 {Cards.map((card, index) => {
                     return (
                         <div className="card" style={{display: index === curIndex ? "block" : "none"}} key={index}>
@@ -97,6 +145,7 @@ const Lesson = () => {
                             <div className="card__face card__face--back">{card.desc}</div>
                         </div>)
                 })}
+
             </div>
             <div className='btn'>
                 <button className='lessonBtn' onClick={prevCard}>Prev Card</button>
@@ -118,6 +167,64 @@ const Lesson = () => {
                                 <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="button" className='home-btn' data-dismiss="modal" onClick={handleBack}>Back To Home Page</button>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" className="btn btn-primary" id="buttonAdd" style={{display: "none"}}>Launch modal</button>
+            <div className="modal fade" id="myModalAdd" role="dialog">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3>Add New Lesson</h3>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <form>
+                                <div className="form-group">
+                                    <label htmlFor="input1">Card Name</label>
+                                    <input 
+                                        className="form-control" 
+                                        name='name'
+                                        value={data.name}
+                                        onChange={handleChange}
+                                        placeholder="Enter card name"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="input2">Card Image Link</label>
+                                    <input 
+                                        className="form-control"  
+                                        name='imageURL'
+                                        value={data.imageURL}
+                                        onChange={handleChange}
+                                        placeholder="Enter card image link"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="input2">Card Description</label>
+                                    <input 
+                                        className="form-control"  
+                                        name='desc'
+                                        value={data.desc}
+                                        onChange={handleChange}
+                                        placeholder="Enter card description"
+                                    />
+                                </div>
+                            </form>
+                            {err && <span style={{
+                            color: "red", fontSize: "16px", 
+                            alignSelf: "flex-end",
+                            marginRight: "5px",
+                            }}>
+                            {err}
+                            </span>}
+                        </div>
+                        <div className="modal-footer modelButton">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+                            <button type="button" className="btn btn-primary" onClick={handleAddCard}>Save changes</button>
                         </div>
                     </div>
                 </div>

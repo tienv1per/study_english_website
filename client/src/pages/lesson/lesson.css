@@ -13,45 +13,47 @@
     perspective: 600px;
   }
   
-  .card {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    transform-style: preserve-3d;
-    transform-origin: center right;
-    transition: transform 1s;
-  }
+.card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: center right;
+  transition: transform 1s;
+}
   
-  .card.is-flipped {
-    transform: translateX(-100%) rotateY(-180deg);
-  }
+.card.is-flipped {
+  transform: translateX(-100%) rotateY(-180deg);
+}
   
-  .card__face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    font-weight: bold;
-    backface-visibility: hidden;
-  }
-  
-  .card__face--front {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    font-size: 50px;
-    background: #FAF0E6;
-  }
-  
-  .card__face--back {
-    background: #ADD8E6;
-    transform: rotateY(180deg);
-    vertical-align: middle;
-    font-size: 40px;
-  }
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-weight: bold;
+  backface-visibility: hidden;
+}
+
+.card__face--front {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  font-size: 50px;
+  background: #FAF0E6;
+}
+
+.card__face--back {
+  background: #ADD8E6;
+  transform: rotateY(180deg);
+  vertical-align: middle;
+  font-size: 40px;
+}
 
 .imageInfo {
     width: 250px;

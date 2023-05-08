@@ -4,7 +4,15 @@ const mongoose = require("mongoose");
 
 module.exports.createCard = async(req, res, next) => {
     const lessonId = req.params.lessonId;
+    const {name, imageURL, desc} = req.body;
     const newCard = new CardModel(req.body);
+
+    if(name === "" || imageURL === "" || desc === "") {
+        return res.status(201).json({
+            message: "Please fill all required fields",
+            success: false,
+        })
+    }
 
     try {
         await LessonModel.findByIdAndUpdate(lessonId, {
@@ -12,7 +20,11 @@ module.exports.createCard = async(req, res, next) => {
         })
         newCard.lesson = lessonId;
         const savedCard = await newCard.save();
-        return res.status(200).json(savedCard);
+        return res.status(200).json({
+            success: true,
+            card: savedCard,
+            message: "add card successfully",
+        });
     } catch (error) {
         return res.status(404).json({message: "Lesson not found"});
     }

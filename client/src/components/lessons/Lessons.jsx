@@ -16,6 +16,11 @@ const Lessons = () => {
         imageURL: "",
     });
 
+    const handleChange = (e) => {
+        e.preventDefault();
+        setData({...data, [e.target.name]: e.target.value});
+    }
+
     const {isAdmin} = decoded;
 
     const navigate = useNavigate();
@@ -52,11 +57,6 @@ const Lessons = () => {
 
     const handleDeleteLesson = (id) => {
         setButtonToggleAttribute("#buttonDelete", "modal", `#myModalDelete${id}`);
-    }
-
-    const handleChange = (e) => {
-        e.preventDefault();
-        setData({...data, [e.target.name]: e.target.value});
     }
 
     const handleSubmit = async(e) => {
