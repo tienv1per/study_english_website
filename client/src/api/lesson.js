@@ -30,6 +30,11 @@ const editLesson = async(id, data) => {
     return result;
 }
 
+const deleteLesson = async(id) => {
+    const result = await axios.delete(`http://localhost:8000/lessons/${id}`);
+    return result;
+}
+
 export const lessonApi = {
     getLesson,
     getCardsInLesson,
@@ -37,4 +42,5 @@ export const lessonApi = {
     finishLesson,
     createLesson,
     editLesson,
+    deleteLesson,
 };

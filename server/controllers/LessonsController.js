@@ -69,10 +69,14 @@ module.exports.deleteLesson = async(req, res, next) =>{
     try {
         const lesson = await LessonModel.findByIdAndDelete(id);
         return res.status(200).json({
+            success: true,
             message: "Delete lesson successfully",
             lesson: lesson,
         })
     } catch (error) {
-        return res.status(500).json(error.message);
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
 }

@@ -46,9 +46,12 @@ const Lessons = () => {
         setButtonToggleAttribute("#buttonAdd", "modal", "#myModalAdd");
     }
 
-    const handleEditLesson = (e) => {
-        e.preventDefault();
-        setButtonToggleAttribute("#buttonEdit", "modal", "#myModalEdit");
+    const handleEditLesson = (id) => {
+        setButtonToggleAttribute("#buttonEdit", "modal", `#myModalEdit${id}`);
+    }
+
+    const handleDeleteLesson = (id) => {
+        setButtonToggleAttribute("#buttonDelete", "modal", `#myModalDelete${id}`);
     }
 
     const handleChange = (e) => {
@@ -62,12 +65,15 @@ const Lessons = () => {
             const res = await Api.lessonApi.createLesson(data);
             if(!res.data.success) {
                 setErr(res.data.message);
-                return ;
             }
             console.log(res.data);
         } catch (error) {
             console.log(error);
         }
+        setData({
+            name: "",
+            imageURL: "",
+        })
         closeModal();
         callApi();
     }
@@ -75,15 +81,37 @@ const Lessons = () => {
     const handleEdit = async(id) => {
         try {
             const res = await Api.lessonApi.editLesson(id, data);
-            if (res.data.success) {
+            if (!res.data.success) {
                 setErr(res.data.message);
-                return ;
+                return;
             }
             console.log(res.data);
         } catch (error) {
             console.log(error);
         }
-        closeModal();
+        const button = document.querySelector(`#close${id}`);
+        button.click();
+        setData({
+            name: "",
+            imageURL: "",
+        })
+        callApi();
+    }
+
+    const handleDelete = async (id) => {
+        console.log(333);
+        try {
+            const res = await Api.lessonApi.deleteLesson(id);
+            if (!res.data.success) {
+                setErr(res.data.message);
+                return;
+            }
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+        const button = document.querySelector(`#delete${id}`);
+        button.click();
         callApi();
     }
 
@@ -101,10 +129,10 @@ const Lessons = () => {
                             </div>
                             <div className='buttonDiv'>
                                 <button className='lessonBtn' onClick={() => navigate(`/details/${lesson._id}`)}>View Detail</button>
-                                <button className='lessonBtn' onClick={handleEditLesson}>Edit Lesson</button>
-                                <button className='lessonBtn'>Delete Lesson</button>
+                                <button className='lessonBtn' onClick={() => handleEditLesson(lesson._id)}>Edit Lesson</button>
+                                <button className='lessonBtn' onClick={() => handleDeleteLesson(lesson._id)}>Delete Lesson</button>
                             </div>
-                            <div className="modal fade" id="myModalEdit" role="dialog">
+                            <div className="modal fade" id={`myModalEdit${lesson._id}`} role="dialog">
                                 <div className="modal-dialog" role="document">
                                     <div className="modal-content">
                                         <div className="modal-header">
@@ -145,8 +173,27 @@ const Lessons = () => {
                                             </span>}
                                         </div>
                                         <div className="modal-footer modelButton">
-                                            <button type="button" className="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+                                            <button type="button" className="btn btn-secondary" data-dismiss="modal" id={`close${lesson._id}`}>Close</button>
                                             <button type="button" className="btn btn-primary" onClick={() => handleEdit(lesson._id)}>Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal fade" id={`myModalDelete${lesson._id}`} tabIndex="-1" role="dialog">
+                                <div className="modal-dialog" role="document">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title" id="modalLabel">Confirm Delete</h5>
+                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div className="modal-body">
+                                            Are you sure you want to delete this item?
+                                        </div>
+                                        <div className="modal-footer deleteFooter">
+                                            <button type="button" className="btn btn-secondary deleteBtn" data-dismiss="modal"id={`delete${lesson._id}`}>Cancel</button>
+                                            <button type="button" className="btn btn-danger deleteBtn" id="confirm" onClick={() => handleDelete(lesson._id)}>Delete</button>
                                         </div>
                                     </div>
                                 </div>
@@ -157,6 +204,7 @@ const Lessons = () => {
             </div>
             <button type="button" className="btn btn-primary" id="buttonAdd" style={{display: "none"}}>Launch modal</button>
             <button type="button" className="btn btn-primary" id="buttonEdit" style={{display: "none"}}>Launch modal</button>
+            <button type="button" className="btn btn-primary" id="buttonDelete" style={{display: "none"}}>Delete</button>
 
             <div className="modal fade" id="myModalAdd" role="dialog">
                 <div className="modal-dialog" role="document">

@@ -12,6 +12,6 @@ router.post("/", LessonsController.createLesson);
 
 router.put("/:id", LessonsController.updateLesson);
 
-router.delete("/:id", verify.verifyToken, LessonsController.deleteLesson);
+router.delete("/:id", LessonsController.deleteLesson);
 
 module.exports = router;
