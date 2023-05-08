@@ -64,14 +64,14 @@
 
 .btn {
     display: flex;
-    gap: 60px;
+    gap: 30px;
     margin-right: 66px;
 }
 
 .lessonBtn {
     background-color: blueviolet;
     height: 60px;
-    width: 120px;
+    width: 130px;
     cursor: pointer;
     border: none;
     font-size: 18px;

@@ -64,11 +64,15 @@ module.exports.deleteCard = async(req, res, next) => {
             $inc: {numberCards: -1}
         })
         return res.status(200).json({
+            success: true,
             message: "Delete card successfully",
             card: card,
         })
     } catch (error) {
-        return res.status(500).json(error.message);
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
 }
 

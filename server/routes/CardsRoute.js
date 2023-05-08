@@ -14,6 +14,6 @@ router.post("/:lessonId", CardsController.createCard);
 
 router.put("/:id", CardsController.updateCard);
 
-router.delete("/:id", verify.verifyToken, CardsController.deleteCard);
+router.delete("/:id", CardsController.deleteCard);
 
 module.exports = router;

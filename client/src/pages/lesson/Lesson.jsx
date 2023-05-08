@@ -118,7 +118,7 @@ const Lesson = () => {
             desc: "",
         })
         closeModal();
-        callApi();
+        // callApi();
     }
 
     const editCardModal = (e) => {
@@ -147,6 +147,27 @@ const Lesson = () => {
         callApi();
     }
 
+    const deleteCardModal = (e) => {
+        e.preventDefault();
+        setButtonToggleAttribute("#buttonDelete", "modal", `#myModalDelete`);
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            const res = await Api.cardApi.deleteCard(id);
+            if (!res.data.success) {
+                setErr(res.data.message);
+                return;
+            }
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+        const button = document.querySelector(`#deleteModal`);
+        button.click();
+        // callApi();
+    }
+
     return (
         <div className='lesson'>
             <h1>Lesson Detail</h1>
@@ -155,7 +176,7 @@ const Lesson = () => {
             <div className='btn'>
                 <button className='lessonBtn' onClick={addCardModal}>Add New Card</button>
                 <button className='lessonBtn' onClick={editCardModal}>Edit Card</button>
-                
+                <button className='lessonBtn' onClick={deleteCardModal}>Delete Card</button>
             </div>
             <div className='btn'>
                 <button className='lessonBtn' onClick={handleBack}>Back</button>
@@ -312,6 +333,26 @@ const Lesson = () => {
                         <div className="modal-footer modelButton">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal" id={`closeEdit`}>Close</button>
                             <button type="button" className="btn btn-primary" onClick={() => handleEdit(Cards[curIndex]._id)}>Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" className="btn btn-primary" id="buttonDelete" style={{display: "none"}}>Delete</button>
+            <div className="modal fade" id={`myModalDelete`} tabIndex="-1" role="dialog">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="modalLabel">Confirm Delete</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            Are you sure you want to delete this item?
+                        </div>
+                        <div className="modal-footer deleteFooter">
+                            <button type="button" className="btn btn-secondary deleteBtn" data-dismiss="modal"id={`deleteModal`}>Cancel</button>
+                            <button type="button" className="btn btn-danger deleteBtn" id="confirm" onClick={() => handleDelete(Cards[curIndex]._id)}>Delete</button>
                         </div>
                     </div>
                 </div>

@@ -99,7 +99,6 @@ const Lessons = () => {
     }
 
     const handleDelete = async (id) => {
-        console.log(333);
         try {
             const res = await Api.lessonApi.deleteLesson(id);
             if (!res.data.success) {
