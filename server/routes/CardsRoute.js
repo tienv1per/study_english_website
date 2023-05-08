@@ -12,7 +12,7 @@ router.get("/:lessonId", CardsController.getCardsInLesson);
 
 router.post("/:lessonId", CardsController.createCard);
 
-router.put("/:id", verify.verifyToken, CardsController.updateCard);
+router.put("/:id", CardsController.updateCard);
 
 router.delete("/:id", verify.verifyToken, CardsController.deleteCard);
 

@@ -55,9 +55,16 @@ module.exports.createLesson = async(req, res, next) =>{
 
 module.exports.updateLesson = async(req, res, next) =>{
     const id = req.params.id;
+    const {name, imageURL} = req.body;
+    if(name === "" || imageURL === "") {
+        return res.status(201).json({
+            message: "Please fill all required fields",
+            success: false,
+        })
+    }
 
     try {
-        const lesson = await LessonModel.findByIdAndUpdate(id, req.body, {new: true});
+        const lesson = await LessonModel.findByIdAndUpdate(id, {name, imageURL}, {new: true});
         return res.status(200).json(lesson);
     } catch (error) {
         return res.status(500).json({message: error.message});

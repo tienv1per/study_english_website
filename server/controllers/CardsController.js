@@ -32,12 +32,26 @@ module.exports.createCard = async(req, res, next) => {
 
 module.exports.updateCard = async(req, res, next) => {
     const id = req.params.id;
+    const {name, imageURL, desc} = req.body;
+    if(name === "" || imageURL === "" || desc === "") {
+        return res.status(201).json({
+            message: "Please fill all required fields",
+            success: false,
+        })
+    }
 
     try {
         const card = await CardModel.findByIdAndUpdate(id, req.body, {new: true});
-        return res.status(200).json(card);
+        return res.status(200).json({
+            success: true,
+            card: card,
+            message: "Update card successfully",
+        });
     } catch (error) {
-        return res.status(500).json(error.message);
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
     }
 }
 

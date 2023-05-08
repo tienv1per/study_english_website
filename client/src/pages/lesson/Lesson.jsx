@@ -121,6 +121,32 @@ const Lesson = () => {
         callApi();
     }
 
+    const editCardModal = (e) => {
+        e.preventDefault();
+        setButtonToggleAttribute("#buttonEdit", "modal", "#myModalEdit");
+    }
+
+    const handleEdit = async(id) => {
+        try {
+            const res = await Api.cardApi.editCard(id, data);
+            if (!res.data.success) {
+                setErr(res.data.message);
+                return;
+            }
+            console.log(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+        setData({
+            name: "",
+            imageURL: "",
+            desc: "",
+        })
+        const button = document.querySelector(`#closeEdit`);
+        button.click();
+        callApi();
+    }
+
     return (
         <div className='lesson'>
             <h1>Lesson Detail</h1>
@@ -128,7 +154,8 @@ const Lesson = () => {
             <h3>{numCards !== 0 ? (curIndex + 1) : 0} / {numCards} flash cards</h3>
             <div className='btn'>
                 <button className='lessonBtn' onClick={addCardModal}>Add New Card</button>
-                <button className='lessonBtn'>Edit Card</button>
+                <button className='lessonBtn' onClick={editCardModal}>Edit Card</button>
+                
             </div>
             <div className='btn'>
                 <button className='lessonBtn' onClick={handleBack}>Back</button>
@@ -136,14 +163,15 @@ const Lesson = () => {
             </div>
             <div className="scene scene--card sceneTag" ref={cardsRef}>
                 {Cards.map((card, index) => {
-                    return (
+                    return ( 
                         <div className="card" style={{display: index === curIndex ? "block" : "none"}} key={index}>
                             <div className="card__face card__face--front">
                                 <div>{card.name}</div>
                                 <img className='imageInfo' src={card.imageURL} alt=''/>
                             </div>
                             <div className="card__face card__face--back">{card.desc}</div>
-                        </div>)
+                        </div>
+                        )
                 })}
 
             </div>
@@ -172,6 +200,7 @@ const Lesson = () => {
                 </div>
             </div>
             <button type="button" className="btn btn-primary" id="buttonAdd" style={{display: "none"}}>Launch modal</button>
+            
             <div className="modal fade" id="myModalAdd" role="dialog">
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">
@@ -225,6 +254,64 @@ const Lesson = () => {
                         <div className="modal-footer modelButton">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
                             <button type="button" className="btn btn-primary" onClick={handleAddCard}>Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="button" className="btn btn-primary" id="buttonEdit" style={{display: "none"}}>Launch modal</button>
+            <div className="modal fade" id={`myModalEdit`} role="dialog">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h3>Edit Lesson</h3>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <form>
+                            <div className="form-group">
+                                    <label htmlFor="input1">Card Name</label>
+                                    <input 
+                                        className="form-control" 
+                                        name='name'
+                                        value={data.name}
+                                        onChange={handleChange}
+                                        placeholder="Enter card name"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="input2">Card Image Link</label>
+                                    <input 
+                                        className="form-control"  
+                                        name='imageURL'
+                                        value={data.imageURL}
+                                        onChange={handleChange}
+                                        placeholder="Enter card image link"
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="input2">Card Description</label>
+                                    <input 
+                                        className="form-control"  
+                                        name='desc'
+                                        value={data.desc}
+                                        onChange={handleChange}
+                                        placeholder="Enter card description"
+                                    />
+                                </div>
+                            </form>
+                            {err && <span style={{
+                            color: "red", fontSize: "16px", 
+                            alignSelf: "flex-end",
+                            marginRight: "5px",
+                            }}>
+                            {err}
+                            </span>}
+                        </div>
+                        <div className="modal-footer modelButton">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal" id={`closeEdit`}>Close</button>
+                            <button type="button" className="btn btn-primary" onClick={() => handleEdit(Cards[curIndex]._id)}>Save changes</button>
                         </div>
                     </div>
                 </div>
