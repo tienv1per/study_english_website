@@ -10,7 +10,7 @@ router.get("/:id", LessonsController.getLesson);
 
 router.post("/", LessonsController.createLesson);
 
-router.put("/:id", verify.verifyToken, LessonsController.updateLesson);
+router.put("/:id", LessonsController.updateLesson);
 
 router.delete("/:id", verify.verifyToken, LessonsController.deleteLesson);
 

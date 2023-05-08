@@ -34,6 +34,13 @@ module.exports.createLesson = async(req, res, next) =>{
             success: false,
         })
     }
+    const lesson = await LessonModel.findOne({name: name});
+    if (lesson) {
+        return res.status(201).json({
+            message: "Name Lesson already exists",
+            success: false,
+        })
+    }
     const newLesson = new LessonModel({name, imageURL});
     try {
         const savedLesson = await newLesson.save();
@@ -61,7 +68,6 @@ module.exports.deleteLesson = async(req, res, next) =>{
     const id = req.params.id;
     try {
         const lesson = await LessonModel.findByIdAndDelete(id);
-        console.log(1);
         return res.status(200).json({
             message: "Delete lesson successfully",
             lesson: lesson,

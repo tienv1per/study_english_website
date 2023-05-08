@@ -1,6 +1,6 @@
 .lessons {
     width: 100%;
-    display: flex;
+    display: grid;
     justify-content: center;
     gap: 15px;
 }
@@ -8,6 +8,10 @@
 .lessonItem {
     border-radius: 10px;
     height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .lessonImg {
@@ -21,19 +25,6 @@
 .lessonTitle {
     font-weight: 300;
     max-height: 120px;
-    text-align: center;
-}
-
-.lessonBtn {
-    color: white;
-    background-color: #003580;
-    height: 40px;
-    width: 90px;
-    cursor: pointer;
-    border: none;
-    border-radius: 10px;
-    margin-left: 90px;
-    margin-bottom: 20px;
     text-align: center;
 }
 
@@ -53,4 +44,10 @@
 .form-control {
     height: 40px;
     font-size: 20px;
+}
+
+.buttonDiv {
+    display: flex;
+    justify-content:space-between;
+    gap: 5px;
 }

@@ -25,10 +25,16 @@ const createLesson = async(data) => {
     return result;
 }
 
+const editLesson = async(id, data) => {
+    const result = await axios.put(`http://localhost:8000/lessons/${id}`, data);
+    return result;
+}
+
 export const lessonApi = {
     getLesson,
     getCardsInLesson,
     getAllLessons,
     finishLesson,
     createLesson,
+    editLesson,
 };

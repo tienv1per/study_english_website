@@ -63,8 +63,8 @@ const Lesson = () => {
         navigate("/");
     }
 
-    function setButtonToggleAttribute(toggle, target) {
-        const button = document.querySelector("#buttonModal");
+    function setButtonToggleAttribute(id, toggle, target) {
+        const button = document.querySelector(id);
         button.dataset.toggle = toggle;
         button.dataset.target = target;
         button.click();
@@ -74,14 +74,14 @@ const Lesson = () => {
         await Api.lessonApi.finishLesson(decoded.id, {
             "lessonId": id.id,
         });
-        setButtonToggleAttribute("modal", "#myModal");
+        setButtonToggleAttribute("#buttonModal", "modal", "#myModal");
     }
 
     return (
         <div className='lesson'>
             <h1>Lesson Detail</h1>
             <h2>{lesson}</h2>
-            <h3>{curIndex + 1} / {numCards} flash cards</h3>
+            <h3>{numCards !== 0 ? (curIndex + 1) : 0} / {numCards} flash cards</h3>
             <div className='btn'>
                 <button className='lessonBtn' onClick={handleBack}>Back</button>
                 <button className='lessonBtn' onClick={finishAll}>Finish</button>
