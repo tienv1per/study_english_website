@@ -9,10 +9,13 @@ const Lesson = () => {
     const navigate = useNavigate();
 
     const cookie = Cookies.get("authen");
-    if(!cookie) {
+    if (!cookie) {
         navigate("/login");
+    } else {
+        console.log("cookie", cookie);
+        var decoded = jwt_decode(cookie);
     }
-    const decoded = jwt_decode(cookie);
+
 
     const cardsRef = useRef();
     const [Cards, setCards] = useState([]); 

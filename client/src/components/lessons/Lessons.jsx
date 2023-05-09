@@ -11,10 +11,13 @@ const Lessons = () => {
     const [lessons, setLessons] = useState([]);
     const [err, setErr] = useState("");
     const cookie = Cookies.get("authen");
-    if(!cookie) {
+    if (!cookie) {
         navigate("/login");
+    } else {
+        console.log("cookie", cookie);
+        var decoded = jwt_decode(cookie);
+        var {isAdmin} = decoded;
     }
-    const decoded = jwt_decode(cookie);
 
     const [data, setData] = useState({
         name: "",
@@ -26,7 +29,7 @@ const Lessons = () => {
         setData({...data, [e.target.name]: e.target.value});
     }
 
-    const {isAdmin} = decoded;
+    
 
     const callApi = async() => {
         const res = await Api.lessonApi.getAllLessons();

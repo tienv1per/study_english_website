@@ -8,13 +8,15 @@ import jwt_decode from "jwt-decode";
 
 const Navbar = () => {
     const navigate = useNavigate();
-    
+
     const cookie = Cookies.get("authen");
-    if(!cookie) {
+    if (!cookie) {
         navigate("/login");
+    } else {
+        console.log("cookie", cookie);
+        var decoded = jwt_decode(cookie);
+        var username = decoded?.username;
     }
-    var decoded = jwt_decode(cookie);
-    const {username} = decoded;
 
 
     
