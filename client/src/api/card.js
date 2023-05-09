@@ -1,7 +1,7 @@
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-const REACT_APP_BACKEND_URL = "https://learning-english-website-backend.onrender.com";
+const REACT_APP_BACKEND_URL = "https://learning-english-backend-pro.onrender.com";
 
 const createCard = async(id, data) => {
     const result = await axios.post(`${REACT_APP_BACKEND_URL}/cards/${id}`, data);

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const REACT_APP_BACKEND_URL = "https://learning-english-website-backend.onrender.com";
+const REACT_APP_BACKEND_URL = "https://learning-english-backend-pro.onrender.com";
 
 axios.defaults.withCredentials = true;
 
