@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const REACT_BASE_URL = process.env.REACT_BASE_URL;
+const REACT_BASE_URL = "https://learning-english-website-backend.onrender.com";
 
 const registerApi = async(data) => {
     const result = await axios.post(`${REACT_BASE_URL}/user/register`, data);
