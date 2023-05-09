@@ -25,7 +25,7 @@ const connect = async () => {
 }
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*'); // replace with your frontend origin
+    res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // replace with your frontend origin
     res.header('Access-Control-Allow-Credentials', true);
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
