@@ -1,18 +1,19 @@
 import axios from "axios";
 
+const REACT_BASE_URL = process.env.REACT_BASE_URL;
+
 const registerApi = async(data) => {
-    const result = await axios.post("http://localhost:8000/user/register", data);
+    const result = await axios.post(`${REACT_BASE_URL}/user/register`, data);
     return result;
 }
 
 const loginApi = async(data) => {
-    const result = await axios.post("http://localhost:8000/user/login", data);
+    const result = await axios.post(`${REACT_BASE_URL}/user/login`, data);
     return result;
 }
 
 const logoutApi = async() => {
-    console.log(123);
-    return await axios.post("http://localhost:8000/user/logout");
+    return await axios.post(`${REACT_BASE_URL}/user/logout`);
 }
 
 export const authApi = {
