@@ -9,6 +9,9 @@ const Lesson = () => {
     const navigate = useNavigate();
 
     const cookie = Cookies.get("authen");
+    if(!cookie) {
+        navigate("/login");
+    }
     const decoded = jwt_decode(cookie);
 
     const cardsRef = useRef();

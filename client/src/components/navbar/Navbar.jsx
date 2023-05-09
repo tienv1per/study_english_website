@@ -7,13 +7,17 @@ import jwt_decode from "jwt-decode";
 
 
 const Navbar = () => {
+    const navigate = useNavigate();
+    
     const cookie = Cookies.get("authen");
-
+    if(!cookie) {
+        navigate("/login");
+    }
     var decoded = jwt_decode(cookie);
     const {username} = decoded;
 
 
-    const navigate = useNavigate();
+    
     const navToLogout = async(e) => {
         e.preventDefault();
         await Api.authApi.logoutApi;

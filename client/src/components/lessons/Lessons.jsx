@@ -6,9 +6,14 @@ import Cookies from 'js-cookie';
 import jwt_decode from "jwt-decode";
 
 const Lessons = () => {
+    const navigate = useNavigate();
+
     const [lessons, setLessons] = useState([]);
     const [err, setErr] = useState("");
     const cookie = Cookies.get("authen");
+    if(!cookie) {
+        navigate("/login");
+    }
     const decoded = jwt_decode(cookie);
 
     const [data, setData] = useState({
@@ -22,8 +27,6 @@ const Lessons = () => {
     }
 
     const {isAdmin} = decoded;
-
-    const navigate = useNavigate();
 
     const callApi = async() => {
         const res = await Api.lessonApi.getAllLessons();
