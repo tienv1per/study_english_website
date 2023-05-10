@@ -13,12 +13,9 @@ const Navbar = () => {
     if (!cookie) {
         navigate("/login");
     } else {
-        console.log("cookie", cookie);
         var decoded = jwt_decode(cookie);
         var username = decoded?.username;
     }
-
-
     
     const navToLogout = async(e) => {
         e.preventDefault();

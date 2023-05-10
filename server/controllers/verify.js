@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 module.exports.verifyToken = async(req, res, next) => {
-    const token = req.cookies.authen;
+    const token = req.headers.authorization.split(" ")[1];
     if(!token) {
         return res.status(401).json({message:"You are not authenticated"});
     }
@@ -10,7 +10,7 @@ module.exports.verifyToken = async(req, res, next) => {
             return res.status(403).json({message: "Invalid token"});
         }
         req.user = decoded;
-        console.log(decoded);
+
         if (!req.user.isAdmin) {
             return res.status(401).json({message: "You are not authorized to access this resource"});
         }
