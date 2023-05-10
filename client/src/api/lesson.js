@@ -20,6 +20,7 @@ const getCardsInLesson = async(id) => {
 }   
 
 const getAllLessons = async() => {
+    console.log(cookie);
     const result = await axios.get(`${REACT_APP_BACKEND_URL}/lessons`);
     return result;
 }
