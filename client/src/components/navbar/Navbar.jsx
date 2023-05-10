@@ -14,6 +14,7 @@ const Navbar = () => {
         navigate("/login");
     } else {
         var decoded = jwt_decode(cookie);
+
         var username = decoded?.username;
     }
     

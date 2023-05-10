@@ -3,10 +3,16 @@ import Cookies from 'js-cookie';
 
 const REACT_APP_BACKEND_URL = "https://learning-english-backend-pro.onrender.com";
 // const REACT_APP_BACKEND_URL = "http://localhost:8000";
-const cookie = Cookies.get("authen");
+const getCookie = () => {
+    const cookie = Cookies.get("authen");
+    return cookie;
+}
 
-const config = {
-    headers: { Authorization: `Bearer ${cookie}` }
+const config = () => {
+    const cookie = getCookie();
+    return {
+        headers: { Authorization: `Bearer ${cookie}`}
+    }
 };
 
 const getLesson = async(id) => {
@@ -20,7 +26,6 @@ const getCardsInLesson = async(id) => {
 }   
 
 const getAllLessons = async() => {
-    console.log(cookie);
     const result = await axios.get(`${REACT_APP_BACKEND_URL}/lessons`);
     return result;
 }
@@ -31,18 +36,17 @@ const finishLesson = async (userId, lessonId) => {
 }
 
 const createLesson = async(data) => {
-    console.log(cookie);
-    const result = await axios.post(`${REACT_APP_BACKEND_URL}/lessons`, data, config);
+    const result = await axios.post(`${REACT_APP_BACKEND_URL}/lessons`, data, config());
     return result;
 }
 
 const editLesson = async(id, data) => {
-    const result = await axios.put(`${REACT_APP_BACKEND_URL}/lessons/${id}`, data, config);
+    const result = await axios.put(`${REACT_APP_BACKEND_URL}/lessons/${id}`, data, config());
     return result;
 }
 
 const deleteLesson = async(id) => {
-    const result = await axios.delete(`${REACT_APP_BACKEND_URL}/lessons/${id}`, config);
+    const result = await axios.delete(`${REACT_APP_BACKEND_URL}/lessons/${id}`, config());
     return result;
 }
 

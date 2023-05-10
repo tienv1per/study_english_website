@@ -15,7 +15,6 @@ const Lesson = () => {
         var decoded = jwt_decode(cookie);
     }
 
-
     const cardsRef = useRef();
     const [Cards, setCards] = useState([]); 
     const [lesson, setLesson] = useState("");
